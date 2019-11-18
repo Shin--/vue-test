@@ -48,7 +48,7 @@ export default class App extends Vue {}
 @for $i from 1 to 40 {
   $i: $i+1;
   .padding-top-#{$i} {
-    padding-top: $i *px;
+    padding-top: $i * 1px;
   }
 }
 
