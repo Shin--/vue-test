@@ -4,28 +4,30 @@ import {
 } from 'vuex-module-decorators';
 import store from '@/store';
 
-export interface TodoItem {
+export interface ITodoItem {
     id: number,
     title: string,
 }
 
 export interface ITodoState {
-    todos: TodoItem[],
+    todos: ITodoItem[],
 }
 
-@Module
+@Module({ dynamic: true, store, name: 'todos' })
 class Todo extends VuexModule implements ITodoState {
-    todos = [] as TodoItem[];
+    todos = [] as ITodoItem[];
 
     @Mutation
-    ADD_TODO_ITEM(todoItem: TodoItem): void {
+    ADD_TODO_ITEM(todoItem: ITodoItem): void {
       this.todos.push(todoItem);
     }
 
     @Action({ commit: 'ADD_TODO_ITEM' })
-    addTodoItem(title: string): TodoItem {
-      const id: number = this.todos.length ? this.todos.reduce((prev, curr) => (prev.id > curr.id ? prev : curr)).id : 1;
-      return { id, title };
+    addTodoItem(title: string): ITodoItem {
+      const lowestId: number | undefined = this.todos.reduce(
+        (prev, curr) => (prev.id > curr.id ? prev : curr),
+      ).id;
+      return { title, id: lowestId || 1 };
     }
 }
 

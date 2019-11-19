@@ -1,28 +1,33 @@
 
 import {
-  VuexModule, Module, Action, Mutation, MutationAction, getModule,
+  VuexModule, Module, Action, Mutation, getModule,
 } from 'vuex-module-decorators';
-import store from '@/store';
+import store from '@/store'
 
 export interface IMessageState {
     title: string,
     content: string,
 }
 
-@Module({ dynamic: true, store, name: 'todo' })
-class Message extends VuexModule implements IMessageState {
+@Module({ dynamic: true, store, name: 'message' })
+export class Message extends VuexModule implements IMessageState {
     title = ''
 
     content = ''
 
-    @MutationAction
-    changeMessage(content: string) {
-      return { content };
+    @Mutation
+    SET_MESSAGE(content: string) {
+      this.content = content;
     }
 
-    @MutationAction
+    @Action({ commit: 'SET_MESSAGE' })
+    changeMessage(event: any) {
+      return event.target.value;
+    }
+
+    @Action({ commit: 'SET_MESSAGE' })
     reverseMessage() {
-      return { content: this.content.split('').reverse().join('') };
+      return this.content.split('').reverse().join('');
     }
 }
 

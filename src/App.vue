@@ -1,11 +1,12 @@
 <template>
   <div id="app">
-    <p>Message: {{ message }}</p>
+    <h3>Message</h3>
+    <p>Title: {{ message.title }}</p>
+    <p>Content: {{ message.content }}</p>
     <button v-on:click="reverseMessage">
-      Reverse Message
+      Reverse message content
     </button>
-    <input :value="message" @input="changeMessage"/>
-
+    <input :value="message.content" @input="changeMessage"/>
     <h3 class="padding-top-40">Todo list</h3>
     <Todo/>
   </div>
