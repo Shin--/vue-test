@@ -13,8 +13,8 @@ export interface ITodoState {
     todos: ITodoItem[],
 }
 
-@Module({ dynamic: true, store, name: 'todos' })
-class Todo extends VuexModule implements ITodoState {
+@Module({ dynamic: true, store, name: 'todoModule' })
+class TodoModule extends VuexModule implements ITodoState {
     todos = [] as ITodoItem[];
 
     @Mutation
@@ -22,13 +22,14 @@ class Todo extends VuexModule implements ITodoState {
       this.todos.push(todoItem);
     }
 
-    @Action({ commit: 'ADD_TODO_ITEM' })
+    @Action({ commit: 'ADD_TODO_ITEM', rawError: true })
     addTodoItem(title: string): ITodoItem {
-      const lowestId: number | undefined = this.todos.reduce(
-        (prev, curr) => (prev.id > curr.id ? prev : curr),
-      ).id;
-      return { title, id: lowestId || 1 };
+      let newId = 1;
+      if (this.todos.length) {
+        newId = this.todos.reduce((prev, curr) => (prev.id > curr.id ? prev : curr)).id + 1;
+      }
+      return { title, id: newId };
     }
 }
 
-export default getModule(Todo);
+export default getModule(TodoModule);

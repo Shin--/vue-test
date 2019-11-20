@@ -1,14 +1,13 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-import { ITodoState } from './modules/todo';
-import { IMessageState } from './modules/message';
-
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export interface IRootState {
-  todo: ITodoState,
-  message: IMessageState
+  state: {},
+  mutations: {},
+  actions: {},
+  modules: {}
 }
 
-export default new Vuex.Store<IRootState>({});
+export default new Vuex.Store<IRootState>({})

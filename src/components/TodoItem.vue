@@ -1,14 +1,14 @@
 <template>
-  <div></div>
+  <li>{{ todo.title }}</li>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import Todo from './Todo.vue';
+import { ITodoItem } from '../store/modules/todo';
 
 @Component
 export default class TodoItem extends Vue {
-  @Prop() private todo!: Todo;
+  @Prop() private todo!: ITodoItem;
 }
 </script>
 

@@ -1,8 +1,8 @@
 <template>
   <div>
-    <TodoItem v-for="todoItem in todo.todos" v-bind:key="todoItem.id" v-bind:todo="todoItem"/>
-    <input :value="message.content"/>
-    <button @click="mmmaddTodoItem">Add</button>
+    <TodoItem v-for="todoItem in todos" v-bind:key="todoItem.id" :todo="todoItem"/>
+    <input :value="message.content" v-on:change="changeTodoTitle"/>
+    <button @click="addTodoItem">Add</button>
   </div>
 </template>
 
@@ -10,7 +10,8 @@
 import { mapGetters, mapActions } from 'vuex';
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import TodoItem from './TodoItem.vue';
-import TodoModule from '@/store/modules/todo';
+import TodoModule, { ITodoState, ITodoItem } from '@/store/modules/todo';
+import MessageModule from '@/store/modules/message';
 
 @Component({
   components: {
@@ -18,12 +19,22 @@ import TodoModule from '@/store/modules/todo';
   },
 })
 export default class Todo extends Vue {
+  todoTitle: string = ''
+
   get todos() {
     return TodoModule.todos;
   }
 
+  get message() {
+    return MessageModule.message;
+  }
+
+  changeTodoTitle(inputEvent: any) {
+    this.todoTitle = inputEvent.target.value;
+  }
+
   addTodoItem(): void {
-    console.log('todos:', this.todos);
+    TodoModule.addTodoItem(this.todoTitle);
   }
 }
 
